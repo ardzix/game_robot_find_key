@@ -6,3 +6,5 @@ vendor/package/
 vendor/*.tgz
 *.zip
 levels-50-draft.js
+dist/
+.vercel/

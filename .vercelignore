@@ -1,0 +1,14 @@
+runtime/
+checkpoints/
+test-results/
+tests/
+docs/
+node_modules/
+dist/
+vendor/package/
+vendor/*.tgz
+.server*
+*.zip
+MULAI.cmd
+BERHENTI.cmd
+server.mjs

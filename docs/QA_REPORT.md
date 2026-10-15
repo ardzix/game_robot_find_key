@@ -53,6 +53,12 @@ Pada tes composer sempat ada kegagalan skrip QA karena skrip memasukkan isi blok
 
 ## Menjalankan ulang
 
+### Perbaikan deploy statis Vercel
+
+Log deployment awal menunjukkan `FUNCTION_INVOCATION_FAILED` dengan `ReferenceError: document is not defined`: modul browser `app.js` dijalankan sebagai fungsi Node. Repo sekarang menetapkan `framework: null`, perintah build statis, dan output `dist` melalui `vercel.json`. Build menyalin tepat 14 berkas game/aset/lisensi (sekitar 2,69 MB), tanpa server, runtime Windows, atau data kelas.
+
+Delapan pemeriksaan lokal lulus pada output yang sama: HTML dan modul JavaScript dilayani sebagai berkas, seluruh 50 definisi level tersedia, audio menunggu klik Mulai, level 1 selesai pada durasi normal, level 31/50 selesai dengan percepatan 12 ms khusus tes, dan reload berhasil tanpa error browser/request eksternal. Source: `tests/static-deploy.browser.test.mjs`; [laporan](evidence/static-deploy-report.json). Pemeriksaan ini menguji output statis secara lokal; hasil deployment Vercel harus diperiksa terpisah pada commit terbaru.
+
 Jalankan `MULAI.cmd`, lalu perintah tes di README. Untuk tes browser pengembangan, sediakan Playwright pada `PLAYWRIGHT_PATH` dan Chrome pada `BROWSER_PATH`; jalankan sumber `tests/*.test.mjs` yang terkait dengan Node modern. Playwright tidak diperlukan untuk menjalankan game. Source tes dan bukti disertakan agar hasil dapat ditinjau.
 
 Checkpoint menyimpan source/aset/runtime beserta hash SHA-256, mengecualikan cache, log server dan fixture tes. Pemulihan wajib ke folder baru; hash korup dan tujuan yang sudah ada ditolak. ZIP dibuat melalui `scripts/package.ps1` dengan pemeriksaan daftar isi dan hash arsip. Ikuti [CHECKPOINT.md](CHECKPOINT.md) untuk pemulihan.

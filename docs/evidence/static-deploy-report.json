@@ -1,0 +1,44 @@
+{
+  "testedAt": "2026-10-15T16:46:52.909Z",
+  "browser": "155.0.8059.80",
+  "scope": "Local static hosting of the exact Vercel output; not a live Vercel deployment",
+  "checks": [
+    {
+      "name": "Vercel configuration selects Other and a static dist output",
+      "passed": true
+    },
+    {
+      "name": "all 14 static files match source; no server/runtime/classroom state in output",
+      "passed": true
+    },
+    {
+      "name": "homepage and browser JS return 200; server/runtime are not published",
+      "passed": true
+    },
+    {
+      "name": "static browser load exposes all 50 levels and audio unlocks only after Mulai",
+      "passed": true
+    },
+    {
+      "name": "level 1 solved from static dist",
+      "passed": true,
+      "animation": "production timing"
+    },
+    {
+      "name": "level 31 solved from static dist",
+      "passed": true,
+      "animation": "12ms test acceleration"
+    },
+    {
+      "name": "level 50 solved from static dist",
+      "passed": true,
+      "animation": "12ms test acceleration"
+    },
+    {
+      "name": "fresh reload succeeds with no browser errors or external dependencies",
+      "passed": true
+    }
+  ],
+  "browserErrors": [],
+  "externalRequests": []
+}

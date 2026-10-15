@@ -6,6 +6,7 @@
   "description": "Game 50 level TK A–SD 6 untuk urutan instruksi dan pengulangan, lokal dan offline",
   "scripts": {
     "start": "node server.mjs",
+    "build": "node scripts/build-static.mjs",
     "check:assets": "node scripts/check-assets.mjs",
     "checkpoint": "node scripts/checkpoint.mjs",
     "test": "node tests/engine.test.mjs && node tests/audio.test.mjs",
