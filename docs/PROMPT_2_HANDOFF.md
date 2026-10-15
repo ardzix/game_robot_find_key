@@ -14,4 +14,6 @@ Sesudah Prompt 2 aktif: catat pilihan/prediksi tanpa identitas sebagai rancangan
 
 Panel Guru menyediakan Kunci sesi kelas, Simpan rancangan, kolom izin, Izinkan rencana ini, serta ekspor CLASS_STATE. Rancangan browser tidak otomatis menimpa `config/CLASS_STATE.json`; ekspor/unduhan diperlukan untuk menyimpan hasil ke berkas. File baseline masih kosong dan berstatus rancangan. Nilai default tetap usulan, belum keputusan anak. Catat ide di luar manifest untuk nanti.
 
-Om Arif kemudian mengizinkan push source ke **https://github.com/ardzix/game_robot_find_key**. Itu tidak mengizinkan hosting/publikasi situs tambahan. Tidak ada izin pembelian, akun baru, instalasi skill, atau penggunaan identitas anak. Checkpoint tiga level sebelum perluasan dipertahankan; versi siap pakai terbaru memakai 50 level.
+Source tersedia di **https://github.com/ardzix/game_robot_find_key**. Versi web pada **https://game-robot-find-key.vercel.app** sudah diuji setelah perbaikan deploy statis Vercel; pengujian dan batasannya ada di QA_REPORT. Paket lokal tetap tersedia untuk kelas tanpa internet. Rancangan dan tanda selesai di browser lokal dan alamat Vercel memakai origin berbeda, sehingga penyimpanan tidak otomatis dibagikan.
+
+Tidak ada izin pembelian, akun baru, instalasi skill, atau penggunaan identitas anak. Checkpoint tiga level sebelum perluasan dipertahankan; versi terbaru memakai 50 level. Pelaksanaan kelas tetap mengikuti frasa izin Om Arif.
