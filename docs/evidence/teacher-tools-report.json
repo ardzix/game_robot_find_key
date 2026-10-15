@@ -1,0 +1,92 @@
+{
+  "testedAt": "2026-10-15T16:14:37.630Z",
+  "browser": "155.0.8059.80",
+  "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "baseURL": "http://127.0.0.1:4186",
+  "headless": true,
+  "levelCountAtTest": 50,
+  "checks": [
+    {
+      "name": "Muat contoh rute loads current level solution without executing it",
+      "passed": true,
+      "detail": {
+        "levelId": 1,
+        "instructionCount": 3
+      }
+    },
+    {
+      "name": "Hapus terakhir removes one instruction and rewinds an already stepped board",
+      "passed": true
+    },
+    {
+      "name": "play-mode selector makes Jalankan step once and sequence mode resumes remaining commands",
+      "passed": true
+    },
+    {
+      "name": "Pulihkan default restores default level, queue, mode and independent audio settings",
+      "passed": true
+    },
+    {
+      "name": "valid configuration file imports as preview; Validasi does not apply; Terapkan applies once without running",
+      "passed": true
+    },
+    {
+      "name": "malformed JSON and unknown-command imports cannot mutate live configuration",
+      "passed": true
+    },
+    {
+      "name": "oversized import is rejected before replacing preview or applying any state",
+      "passed": true,
+      "detail": {
+        "rejectedBytes": 20122,
+        "reportedLimitBytes": 20000
+      }
+    },
+    {
+      "name": "Simpan konfigurasi downloads actual current JSON, not unapplied editor text",
+      "passed": true,
+      "detail": {
+        "filename": "CLASS_CONFIG.json",
+        "bytes": 266
+      }
+    },
+    {
+      "name": "Simpan CLASS_STATE downloads saved draft and anonymous prediction without applying or authorizing",
+      "passed": true,
+      "detail": {
+        "filename": "CLASS_STATE.json",
+        "bytes": 810,
+        "proposalStatus": "draft_only"
+      }
+    },
+    {
+      "name": "upper-grade example loads real repeat blocks and survives configuration export/import unchanged",
+      "passed": true,
+      "detail": {
+        "levelId": 31,
+        "cards": 6,
+        "expandedActions": 13,
+        "repeatBlocks": 1
+      }
+    },
+    {
+      "name": "Layar penuh attempts the real browser Fullscreen API and can exit or gives F11 fallback",
+      "passed": true,
+      "detail": {
+        "entered": true,
+        "exited": true,
+        "physicalTVVerified": false
+      }
+    },
+    {
+      "name": "teacher tools make no external requests and cause no browser errors",
+      "passed": true
+    }
+  ],
+  "browserErrors": [],
+  "externalRequests": [],
+  "downloadVerification": "Real browser download events and JSON streams; no persistent external destination or upload.",
+  "limitations": [
+    "Headless Chrome with software WebGL; physical TV, projector and fullscreen hardware not tested."
+  ]
+}

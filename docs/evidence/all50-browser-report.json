@@ -1,0 +1,1287 @@
+{
+  "startedAt": "2026-10-15T16:10:45.414Z",
+  "updatedAt": "2026-10-15T16:16:18.573Z",
+  "finished": true,
+  "failure": null,
+  "browser": "155.0.8059.80",
+  "headless": true,
+  "softwareWebGL": true,
+  "externalHostsBlocked": true,
+  "physicalNetworkDisconnected": false,
+  "animationPolicy": {
+    "all50Integration": "Only scene.motion.duration set to 12ms by test wrapper; actual renderer completion, app queue, engine rules, resets and success state unchanged. This is accelerated integration, not real-time classroom animation.",
+    "representativeLevels": "Unmodified production animate function: 650ms per command and 1650ms success."
+  },
+  "independentPaths": [
+    {
+      "levelId": 1,
+      "shortestCommandCount": 3,
+      "reachable": true
+    },
+    {
+      "levelId": 2,
+      "shortestCommandCount": 4,
+      "reachable": true
+    },
+    {
+      "levelId": 3,
+      "shortestCommandCount": 6,
+      "reachable": true
+    },
+    {
+      "levelId": 4,
+      "shortestCommandCount": 7,
+      "reachable": true
+    },
+    {
+      "levelId": 5,
+      "shortestCommandCount": 6,
+      "reachable": true
+    },
+    {
+      "levelId": 6,
+      "shortestCommandCount": 7,
+      "reachable": true
+    },
+    {
+      "levelId": 7,
+      "shortestCommandCount": 7,
+      "reachable": true
+    },
+    {
+      "levelId": 8,
+      "shortestCommandCount": 8,
+      "reachable": true
+    },
+    {
+      "levelId": 9,
+      "shortestCommandCount": 9,
+      "reachable": true
+    },
+    {
+      "levelId": 10,
+      "shortestCommandCount": 10,
+      "reachable": true
+    },
+    {
+      "levelId": 11,
+      "shortestCommandCount": 10,
+      "reachable": true
+    },
+    {
+      "levelId": 12,
+      "shortestCommandCount": 12,
+      "reachable": true
+    },
+    {
+      "levelId": 13,
+      "shortestCommandCount": 17,
+      "reachable": true
+    },
+    {
+      "levelId": 14,
+      "shortestCommandCount": 17,
+      "reachable": true
+    },
+    {
+      "levelId": 15,
+      "shortestCommandCount": 16,
+      "reachable": true
+    },
+    {
+      "levelId": 16,
+      "shortestCommandCount": 19,
+      "reachable": true
+    },
+    {
+      "levelId": 17,
+      "shortestCommandCount": 18,
+      "reachable": true
+    },
+    {
+      "levelId": 18,
+      "shortestCommandCount": 18,
+      "reachable": true
+    },
+    {
+      "levelId": 19,
+      "shortestCommandCount": 19,
+      "reachable": true
+    },
+    {
+      "levelId": 20,
+      "shortestCommandCount": 18,
+      "reachable": true
+    },
+    {
+      "levelId": 21,
+      "shortestCommandCount": 23,
+      "reachable": true
+    },
+    {
+      "levelId": 22,
+      "shortestCommandCount": 23,
+      "reachable": true
+    },
+    {
+      "levelId": 23,
+      "shortestCommandCount": 24,
+      "reachable": true
+    },
+    {
+      "levelId": 24,
+      "shortestCommandCount": 23,
+      "reachable": true
+    },
+    {
+      "levelId": 25,
+      "shortestCommandCount": 22,
+      "reachable": true
+    },
+    {
+      "levelId": 26,
+      "shortestCommandCount": 24,
+      "reachable": true
+    },
+    {
+      "levelId": 27,
+      "shortestCommandCount": 22,
+      "reachable": true
+    },
+    {
+      "levelId": 28,
+      "shortestCommandCount": 25,
+      "reachable": true
+    },
+    {
+      "levelId": 29,
+      "shortestCommandCount": 28,
+      "reachable": true
+    },
+    {
+      "levelId": 30,
+      "shortestCommandCount": 27,
+      "reachable": true
+    },
+    {
+      "levelId": 31,
+      "shortestCommandCount": 13,
+      "reachable": true
+    },
+    {
+      "levelId": 32,
+      "shortestCommandCount": 17,
+      "reachable": true
+    },
+    {
+      "levelId": 33,
+      "shortestCommandCount": 16,
+      "reachable": true
+    },
+    {
+      "levelId": 34,
+      "shortestCommandCount": 16,
+      "reachable": true
+    },
+    {
+      "levelId": 35,
+      "shortestCommandCount": 22,
+      "reachable": true
+    },
+    {
+      "levelId": 36,
+      "shortestCommandCount": 26,
+      "reachable": true
+    },
+    {
+      "levelId": 37,
+      "shortestCommandCount": 28,
+      "reachable": true
+    },
+    {
+      "levelId": 38,
+      "shortestCommandCount": 28,
+      "reachable": true
+    },
+    {
+      "levelId": 39,
+      "shortestCommandCount": 28,
+      "reachable": true
+    },
+    {
+      "levelId": 40,
+      "shortestCommandCount": 38,
+      "reachable": true
+    },
+    {
+      "levelId": 41,
+      "shortestCommandCount": 49,
+      "reachable": true
+    },
+    {
+      "levelId": 42,
+      "shortestCommandCount": 34,
+      "reachable": true
+    },
+    {
+      "levelId": 43,
+      "shortestCommandCount": 36,
+      "reachable": true
+    },
+    {
+      "levelId": 44,
+      "shortestCommandCount": 42,
+      "reachable": true
+    },
+    {
+      "levelId": 45,
+      "shortestCommandCount": 38,
+      "reachable": true
+    },
+    {
+      "levelId": 46,
+      "shortestCommandCount": 52,
+      "reachable": true
+    },
+    {
+      "levelId": 47,
+      "shortestCommandCount": 40,
+      "reachable": true
+    },
+    {
+      "levelId": 48,
+      "shortestCommandCount": 53,
+      "reachable": true
+    },
+    {
+      "levelId": 49,
+      "shortestCommandCount": 51,
+      "reachable": true
+    },
+    {
+      "levelId": 50,
+      "shortestCommandCount": 57,
+      "reachable": true
+    }
+  ],
+  "accelerated": [
+    {
+      "levelId": 1,
+      "grade": "TK A",
+      "visibleBlocks": 3,
+      "expandedCommands": 3,
+      "usedRepeat": false,
+      "elapsedMs": 1279,
+      "finalState": {
+        "levelId": 1,
+        "x": 1,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 2,
+      "grade": "TK A",
+      "visibleBlocks": 4,
+      "expandedCommands": 4,
+      "usedRepeat": false,
+      "elapsedMs": 783,
+      "finalState": {
+        "levelId": 2,
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 3,
+      "grade": "TK A",
+      "visibleBlocks": 6,
+      "expandedCommands": 6,
+      "usedRepeat": false,
+      "elapsedMs": 1034,
+      "finalState": {
+        "levelId": 3,
+        "x": 2,
+        "y": 1,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 4,
+      "grade": "TK A",
+      "visibleBlocks": 7,
+      "expandedCommands": 7,
+      "usedRepeat": false,
+      "elapsedMs": 977,
+      "finalState": {
+        "levelId": 4,
+        "x": 3,
+        "y": 1,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 5,
+      "grade": "TK A",
+      "visibleBlocks": 6,
+      "expandedCommands": 6,
+      "usedRepeat": false,
+      "elapsedMs": 946,
+      "finalState": {
+        "levelId": 5,
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 6,
+      "grade": "TK A",
+      "visibleBlocks": 7,
+      "expandedCommands": 7,
+      "usedRepeat": false,
+      "elapsedMs": 926,
+      "finalState": {
+        "levelId": 6,
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 7,
+      "grade": "TK B",
+      "visibleBlocks": 7,
+      "expandedCommands": 7,
+      "usedRepeat": false,
+      "elapsedMs": 1126,
+      "finalState": {
+        "levelId": 7,
+        "x": 2,
+        "y": 1,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 8,
+      "grade": "TK B",
+      "visibleBlocks": 8,
+      "expandedCommands": 8,
+      "usedRepeat": false,
+      "elapsedMs": 1169,
+      "finalState": {
+        "levelId": 8,
+        "x": 1,
+        "y": 0,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 9,
+      "grade": "TK B",
+      "visibleBlocks": 9,
+      "expandedCommands": 9,
+      "usedRepeat": false,
+      "elapsedMs": 1196,
+      "finalState": {
+        "levelId": 9,
+        "x": 4,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 10,
+      "grade": "TK B",
+      "visibleBlocks": 10,
+      "expandedCommands": 10,
+      "usedRepeat": false,
+      "elapsedMs": 1174,
+      "finalState": {
+        "levelId": 10,
+        "x": 4,
+        "y": 1,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 11,
+      "grade": "TK B",
+      "visibleBlocks": 10,
+      "expandedCommands": 10,
+      "usedRepeat": false,
+      "elapsedMs": 1054,
+      "finalState": {
+        "levelId": 11,
+        "x": 1,
+        "y": 0,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 12,
+      "grade": "TK B",
+      "visibleBlocks": 12,
+      "expandedCommands": 12,
+      "usedRepeat": false,
+      "elapsedMs": 1336,
+      "finalState": {
+        "levelId": 12,
+        "x": 4,
+        "y": 2,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 13,
+      "grade": "SD 1",
+      "visibleBlocks": 17,
+      "expandedCommands": 17,
+      "usedRepeat": false,
+      "elapsedMs": 1710,
+      "finalState": {
+        "levelId": 13,
+        "x": 4,
+        "y": 0,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 14,
+      "grade": "SD 1",
+      "visibleBlocks": 17,
+      "expandedCommands": 17,
+      "usedRepeat": false,
+      "elapsedMs": 1480,
+      "finalState": {
+        "levelId": 14,
+        "x": 0,
+        "y": 0,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 15,
+      "grade": "SD 1",
+      "visibleBlocks": 16,
+      "expandedCommands": 16,
+      "usedRepeat": false,
+      "elapsedMs": 1503,
+      "finalState": {
+        "levelId": 15,
+        "x": 0,
+        "y": 3,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 16,
+      "grade": "SD 1",
+      "visibleBlocks": 19,
+      "expandedCommands": 19,
+      "usedRepeat": false,
+      "elapsedMs": 1781,
+      "finalState": {
+        "levelId": 16,
+        "x": 4,
+        "y": 4,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 17,
+      "grade": "SD 1",
+      "visibleBlocks": 18,
+      "expandedCommands": 18,
+      "usedRepeat": false,
+      "elapsedMs": 1750,
+      "finalState": {
+        "levelId": 17,
+        "x": 4,
+        "y": 0,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 18,
+      "grade": "SD 1",
+      "visibleBlocks": 18,
+      "expandedCommands": 18,
+      "usedRepeat": false,
+      "elapsedMs": 1864,
+      "finalState": {
+        "levelId": 18,
+        "x": 0,
+        "y": 0,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 19,
+      "grade": "SD 2",
+      "visibleBlocks": 19,
+      "expandedCommands": 19,
+      "usedRepeat": false,
+      "elapsedMs": 1820,
+      "finalState": {
+        "levelId": 19,
+        "x": 0,
+        "y": 4,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 20,
+      "grade": "SD 2",
+      "visibleBlocks": 18,
+      "expandedCommands": 18,
+      "usedRepeat": false,
+      "elapsedMs": 1562,
+      "finalState": {
+        "levelId": 20,
+        "x": 4,
+        "y": 4,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 21,
+      "grade": "SD 2",
+      "visibleBlocks": 23,
+      "expandedCommands": 23,
+      "usedRepeat": false,
+      "elapsedMs": 1954,
+      "finalState": {
+        "levelId": 21,
+        "x": 4,
+        "y": 0,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 22,
+      "grade": "SD 2",
+      "visibleBlocks": 23,
+      "expandedCommands": 23,
+      "usedRepeat": false,
+      "elapsedMs": 1880,
+      "finalState": {
+        "levelId": 22,
+        "x": 0,
+        "y": 0,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 23,
+      "grade": "SD 2",
+      "visibleBlocks": 24,
+      "expandedCommands": 24,
+      "usedRepeat": false,
+      "elapsedMs": 2137,
+      "finalState": {
+        "levelId": 23,
+        "x": 0,
+        "y": 4,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 24,
+      "grade": "SD 2",
+      "visibleBlocks": 23,
+      "expandedCommands": 23,
+      "usedRepeat": false,
+      "elapsedMs": 2777,
+      "finalState": {
+        "levelId": 24,
+        "x": 5,
+        "y": 4,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 25,
+      "grade": "SD 3",
+      "visibleBlocks": 22,
+      "expandedCommands": 22,
+      "usedRepeat": false,
+      "elapsedMs": 2894,
+      "finalState": {
+        "levelId": 25,
+        "x": 5,
+        "y": 0,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 26,
+      "grade": "SD 3",
+      "visibleBlocks": 24,
+      "expandedCommands": 24,
+      "usedRepeat": false,
+      "elapsedMs": 3594,
+      "finalState": {
+        "levelId": 26,
+        "x": 0,
+        "y": 0,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 27,
+      "grade": "SD 3",
+      "visibleBlocks": 22,
+      "expandedCommands": 22,
+      "usedRepeat": false,
+      "elapsedMs": 3630,
+      "finalState": {
+        "levelId": 27,
+        "x": 0,
+        "y": 4,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 28,
+      "grade": "SD 3",
+      "visibleBlocks": 25,
+      "expandedCommands": 25,
+      "usedRepeat": false,
+      "elapsedMs": 4521,
+      "finalState": {
+        "levelId": 28,
+        "x": 5,
+        "y": 5,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 29,
+      "grade": "SD 3",
+      "visibleBlocks": 28,
+      "expandedCommands": 28,
+      "usedRepeat": false,
+      "elapsedMs": 4160,
+      "finalState": {
+        "levelId": 29,
+        "x": 5,
+        "y": 0,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 30,
+      "grade": "SD 3",
+      "visibleBlocks": 27,
+      "expandedCommands": 27,
+      "usedRepeat": false,
+      "elapsedMs": 4627,
+      "finalState": {
+        "levelId": 30,
+        "x": 0,
+        "y": 0,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 31,
+      "grade": "SD 4",
+      "visibleBlocks": 6,
+      "expandedCommands": 13,
+      "usedRepeat": true,
+      "elapsedMs": 2811,
+      "finalState": {
+        "levelId": 31,
+        "x": 3,
+        "y": 2,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 32,
+      "grade": "SD 4",
+      "visibleBlocks": 6,
+      "expandedCommands": 17,
+      "usedRepeat": true,
+      "elapsedMs": 1916,
+      "finalState": {
+        "levelId": 32,
+        "x": 1,
+        "y": 4,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 33,
+      "grade": "SD 4",
+      "visibleBlocks": 7,
+      "expandedCommands": 16,
+      "usedRepeat": true,
+      "elapsedMs": 1796,
+      "finalState": {
+        "levelId": 33,
+        "x": 6,
+        "y": 1,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 34,
+      "grade": "SD 4",
+      "visibleBlocks": 7,
+      "expandedCommands": 16,
+      "usedRepeat": true,
+      "elapsedMs": 1607,
+      "finalState": {
+        "levelId": 34,
+        "x": 0,
+        "y": 3,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 35,
+      "grade": "SD 4",
+      "visibleBlocks": 10,
+      "expandedCommands": 22,
+      "usedRepeat": true,
+      "elapsedMs": 1951,
+      "finalState": {
+        "levelId": 35,
+        "x": 4,
+        "y": 4,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 36,
+      "grade": "SD 4",
+      "visibleBlocks": 7,
+      "expandedCommands": 26,
+      "usedRepeat": true,
+      "elapsedMs": 2086,
+      "finalState": {
+        "levelId": 36,
+        "x": 0,
+        "y": 0,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 37,
+      "grade": "SD 5",
+      "visibleBlocks": 9,
+      "expandedCommands": 28,
+      "usedRepeat": true,
+      "elapsedMs": 2580,
+      "finalState": {
+        "levelId": 37,
+        "x": 6,
+        "y": 1,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 38,
+      "grade": "SD 5",
+      "visibleBlocks": 8,
+      "expandedCommands": 28,
+      "usedRepeat": true,
+      "elapsedMs": 2435,
+      "finalState": {
+        "levelId": 38,
+        "x": 0,
+        "y": 1,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 39,
+      "grade": "SD 5",
+      "visibleBlocks": 10,
+      "expandedCommands": 28,
+      "usedRepeat": true,
+      "elapsedMs": 2635,
+      "finalState": {
+        "levelId": 39,
+        "x": 6,
+        "y": 4,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 40,
+      "grade": "SD 5",
+      "visibleBlocks": 10,
+      "expandedCommands": 38,
+      "usedRepeat": true,
+      "elapsedMs": 3591,
+      "finalState": {
+        "levelId": 40,
+        "x": 0,
+        "y": 0,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 41,
+      "grade": "SD 5",
+      "visibleBlocks": 13,
+      "expandedCommands": 49,
+      "usedRepeat": true,
+      "elapsedMs": 4102,
+      "finalState": {
+        "levelId": 41,
+        "x": 0,
+        "y": 2,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 42,
+      "grade": "SD 5",
+      "visibleBlocks": 8,
+      "expandedCommands": 34,
+      "usedRepeat": true,
+      "elapsedMs": 3188,
+      "finalState": {
+        "levelId": 42,
+        "x": 0,
+        "y": 6,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 43,
+      "grade": "SD 5",
+      "visibleBlocks": 9,
+      "expandedCommands": 36,
+      "usedRepeat": true,
+      "elapsedMs": 3107,
+      "finalState": {
+        "levelId": 43,
+        "x": 6,
+        "y": 6,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 44,
+      "grade": "SD 6",
+      "visibleBlocks": 11,
+      "expandedCommands": 42,
+      "usedRepeat": true,
+      "elapsedMs": 3948,
+      "finalState": {
+        "levelId": 44,
+        "x": 0,
+        "y": 1,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 45,
+      "grade": "SD 6",
+      "visibleBlocks": 9,
+      "expandedCommands": 38,
+      "usedRepeat": true,
+      "elapsedMs": 3786,
+      "finalState": {
+        "levelId": 45,
+        "x": 7,
+        "y": 1,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 46,
+      "grade": "SD 6",
+      "visibleBlocks": 13,
+      "expandedCommands": 52,
+      "usedRepeat": true,
+      "elapsedMs": 5002,
+      "finalState": {
+        "levelId": 46,
+        "x": 5,
+        "y": 4,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 47,
+      "grade": "SD 6",
+      "visibleBlocks": 10,
+      "expandedCommands": 40,
+      "usedRepeat": true,
+      "elapsedMs": 3981,
+      "finalState": {
+        "levelId": 47,
+        "x": 7,
+        "y": 6,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 48,
+      "grade": "SD 6",
+      "visibleBlocks": 14,
+      "expandedCommands": 53,
+      "usedRepeat": true,
+      "elapsedMs": 4912,
+      "finalState": {
+        "levelId": 48,
+        "x": 7,
+        "y": 1,
+        "dir": "S",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 49,
+      "grade": "SD 6",
+      "visibleBlocks": 13,
+      "expandedCommands": 51,
+      "usedRepeat": true,
+      "elapsedMs": 4772,
+      "finalState": {
+        "levelId": 49,
+        "x": 7,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 50,
+      "grade": "SD 6",
+      "visibleBlocks": 13,
+      "expandedCommands": 57,
+      "usedRepeat": true,
+      "elapsedMs": 9630,
+      "finalState": {
+        "levelId": 50,
+        "x": 5,
+        "y": 3,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    }
+  ],
+  "fullDuration": [
+    {
+      "levelId": 1,
+      "grade": "TK A",
+      "visibleBlocks": 3,
+      "expandedCommands": 3,
+      "usedRepeat": false,
+      "elapsedMs": 3638,
+      "finalState": {
+        "levelId": 1,
+        "x": 1,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 7,
+      "grade": "TK B",
+      "visibleBlocks": 7,
+      "expandedCommands": 7,
+      "usedRepeat": false,
+      "elapsedMs": 6478,
+      "finalState": {
+        "levelId": 7,
+        "x": 2,
+        "y": 1,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 13,
+      "grade": "SD 1",
+      "visibleBlocks": 17,
+      "expandedCommands": 17,
+      "usedRepeat": false,
+      "elapsedMs": 13793,
+      "finalState": {
+        "levelId": 13,
+        "x": 4,
+        "y": 0,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 19,
+      "grade": "SD 2",
+      "visibleBlocks": 19,
+      "expandedCommands": 19,
+      "usedRepeat": false,
+      "elapsedMs": 16103,
+      "finalState": {
+        "levelId": 19,
+        "x": 0,
+        "y": 4,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 25,
+      "grade": "SD 3",
+      "visibleBlocks": 22,
+      "expandedCommands": 22,
+      "usedRepeat": false,
+      "elapsedMs": 18379,
+      "finalState": {
+        "levelId": 25,
+        "x": 5,
+        "y": 0,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 31,
+      "grade": "SD 4",
+      "visibleBlocks": 6,
+      "expandedCommands": 13,
+      "usedRepeat": true,
+      "elapsedMs": 12954,
+      "finalState": {
+        "levelId": 31,
+        "x": 3,
+        "y": 2,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 37,
+      "grade": "SD 5",
+      "visibleBlocks": 9,
+      "expandedCommands": 28,
+      "usedRepeat": true,
+      "elapsedMs": 21625,
+      "finalState": {
+        "levelId": 37,
+        "x": 6,
+        "y": 1,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 44,
+      "grade": "SD 6",
+      "visibleBlocks": 11,
+      "expandedCommands": 42,
+      "usedRepeat": true,
+      "elapsedMs": 33903,
+      "finalState": {
+        "levelId": 44,
+        "x": 0,
+        "y": 1,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    },
+    {
+      "levelId": 50,
+      "grade": "SD 6",
+      "visibleBlocks": 13,
+      "expandedCommands": 57,
+      "usedRepeat": true,
+      "elapsedMs": 43745,
+      "finalState": {
+        "levelId": 50,
+        "x": 5,
+        "y": 3,
+        "dir": "W",
+        "hasKey": true,
+        "won": true
+      },
+      "passed": true
+    }
+  ],
+  "externalRequests": [],
+  "browserErrors": [],
+  "localRequests": [
+    "http://127.0.0.1:4186/",
+    "http://127.0.0.1:4186/style.css",
+    "http://127.0.0.1:4186/app.js",
+    "http://127.0.0.1:4186/levels.js",
+    "http://127.0.0.1:4186/engine.js",
+    "http://127.0.0.1:4186/audio.js",
+    "http://127.0.0.1:4186/scene.js",
+    "http://127.0.0.1:4186/vendor/three.module.min.js",
+    "http://127.0.0.1:4186/assets/robot.svg"
+  ]
+}

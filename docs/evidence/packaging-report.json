@@ -1,0 +1,10 @@
+{
+  "testedDateLocal": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "runtime": {"version": "v16.16.0", "architecture": "x64", "bundledPath": "runtime/node.exe", "bytes": 61296760},
+  "launcher": {"freshStart": "passed", "sameFolderReuse": "passed; same PID", "stop": "passed; loopback health unavailable afterwards", "restart": "passed", "browserLaunch": "Start-Process accepted default browser URL; visual browser output covered separately by Playwright"},
+  "serverChecks": {"passed": 8, "failed": 0, "source": "tests/server.test.mjs", "checks": ["loopback health", "no-store response", "HEAD metadata", "missing file 404", "POST rejected", "encoded traversal rejected", "backslash rejected", "malformed percent rejected"]},
+  "checkpointChecks": {"passed": 4, "failed": 0, "source": "tests/checkpoint.test.mjs", "checks": ["new snapshot never overwrites previous snapshot", "restored original bytes after source changed", "existing restore destination rejected", "corrupted checkpoint hash rejected"]},
+  "assetAudit": {"passed": true, "source": "scripts/check-assets.mjs", "localReferences": 9, "missing": 0, "networkReferences": 0},
+  "unverified": ["a different Windows PC", "physical TV/HDMI/audio output", "physical Wi-Fi/Ethernet disconnect"]
+}

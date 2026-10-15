@@ -1,0 +1,5 @@
+* text=auto
+*.mid binary
+*.wav binary
+*.png binary
+*.exe binary

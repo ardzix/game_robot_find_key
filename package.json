@@ -1,0 +1,15 @@
+{
+  "name": "robot-cari-kunci",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Game 50 level TK A–SD 6 untuk urutan instruksi dan pengulangan, lokal dan offline",
+  "scripts": {
+    "start": "node server.mjs",
+    "check:assets": "node scripts/check-assets.mjs",
+    "checkpoint": "node scripts/checkpoint.mjs",
+    "test": "node tests/engine.test.mjs && node tests/audio.test.mjs",
+    "test:server": "node tests/server.test.mjs",
+    "test:checkpoint": "node tests/checkpoint.test.mjs"
+  }
+}

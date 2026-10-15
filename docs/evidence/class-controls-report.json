@@ -1,0 +1,43 @@
+{
+  "testedAt": "2026-10-15T16:17:24.958Z",
+  "browser": "155.0.8059.80",
+  "checks": [
+    {
+      "name": "locking classroom while a command animates cancels and rewinds it",
+      "passed": true
+    },
+    {
+      "name": "draft records proposed logic and anonymous prediction without applying or running",
+      "passed": true
+    },
+    {
+      "name": "reopening teacher panel retains pending draft rather than live board config",
+      "passed": true
+    },
+    {
+      "name": "locked classroom rejects run, reset, direct edits, and wrong phrase",
+      "passed": true
+    },
+    {
+      "name": "unsaved editor changes cannot authorize an older saved plan",
+      "passed": true
+    },
+    {
+      "name": "exact preparation-test phrase applies only saved valid plan and does not auto-run",
+      "passed": true
+    },
+    {
+      "name": "reload retains draft but revokes authorization and keeps audio locked",
+      "passed": true
+    },
+    {
+      "name": "authorization in a fresh locked page still requires explicit Mulai gesture for audio",
+      "passed": true
+    },
+    {
+      "name": "clear isolated test storage returns clean preparation defaults",
+      "passed": true
+    }
+  ],
+  "note": "Permission phrase used only in an isolated preparation QA browser context; not a real classroom authorization."
+}

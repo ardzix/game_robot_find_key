@@ -1,0 +1,1466 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Robot Cari Kunci — 50 level, konfigurasi kelas versi 1",
+  "description": "Schema disertakan lokal. URL $schema hanya penanda standar; browser tidak mengambilnya. Runtime engine.js memvalidasi panjang hasil loop maksimal 256 dan posisi awal yang sesuai level. Default merupakan usulan persiapan, bukan keputusan anak.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "levelId",
+    "queue",
+    "playMode",
+    "musicVolume",
+    "effectsVolume",
+    "muted"
+  ],
+  "$defs": {
+    "command": {
+      "type": "string",
+      "enum": [
+        "forward",
+        "left",
+        "right",
+        "take",
+        "open"
+      ]
+    },
+    "repeatBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repeat",
+        "commands"
+      ],
+      "properties": {
+        "repeat": {
+          "type": "integer",
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/command"
+          }
+        }
+      },
+      "description": "Ulangi tersedia hanya level 31–50 (SD 4–6). Tidak bersarang. Setiap perintah di dalamnya tetap satu langkah eksekusi."
+    }
+  },
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "levelId": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Memilih satu dari 50 peta tetap dan mereset posisi, kunci, peti, serta penunjuk program."
+    },
+    "initialState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "dir",
+        "hasKey",
+        "won"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "dir": {
+          "enum": [
+            "N",
+            "E",
+            "S",
+            "W"
+          ]
+        },
+        "hasKey": {
+          "const": false
+        },
+        "won": {
+          "const": false
+        }
+      },
+      "description": "Metadata opsional yang wajib cocok dengan posisi tetap level. Hilangkan field ini saat mengganti level; validator akan mengisinya. Bukan pemindahan robot bebas."
+    },
+    "queue": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/command"
+          },
+          {
+            "$ref": "#/$defs/repeatBlock"
+          }
+        ]
+      },
+      "description": "Maksimal 64 kartu/blok di baris program, maksimal 256 instruksi biasa setelah Ulangi dibentangkan. Antrean kosong atau rute keliru boleh diuji sebagai proses belajar. Menerapkan konfigurasi tidak menjalankan program otomatis."
+    },
+    "playMode": {
+      "type": "string",
+      "enum": [
+        "sequence",
+        "step"
+      ],
+      "description": "sequence menjalankan program berurutan; step menjalankan satu instruksi biasa, termasuk satu isi Ulangi, setiap tindakan guru."
+    },
+    "musicVolume": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Volume musik saja."
+    },
+    "effectsVolume": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Volume efek saja."
+    },
+    "muted": {
+      "type": "boolean",
+      "description": "Membisukan seluruh suara tanpa mengubah dua nilai volume."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "maximum": 30
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "queue": {
+            "items": {
+              "$ref": "#/$defs/command"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 2
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 2
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 2
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 3
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 2
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 4
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 2
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 5
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 6
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 7
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 8
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 3
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 9
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 10
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 11
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 12
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 13
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 3
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 14
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 15
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 16
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 17
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 18
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 19
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 20
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 21
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 22
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 23
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 24
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 25
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 26
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 27
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 28
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 5
+              },
+              "dir": {
+                "const": "N"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 29
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 5
+              },
+              "dir": {
+                "const": "S"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 30
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 31
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 5
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 32
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 33
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 4
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 34
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 6
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 35
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 36
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 6
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 37
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 5
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 38
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 6
+              },
+              "y": {
+                "const": 5
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 39
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 40
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 6
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 41
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 6
+              },
+              "y": {
+                "const": 6
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 42
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 43
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 44
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 7
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 45
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 3
+              },
+              "y": {
+                "const": 7
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 46
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 47
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 5
+              },
+              "y": {
+                "const": 0
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 48
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 6
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 49
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 4
+              },
+              "y": {
+                "const": 6
+              },
+              "dir": {
+                "const": "W"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "levelId": {
+            "const": 50
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "initialState": {
+            "properties": {
+              "x": {
+                "const": 0
+              },
+              "y": {
+                "const": 7
+              },
+              "dir": {
+                "const": "E"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-expanded-command-limit": 256,
+  "x-apply": "validateConfig(config) memvalidasi seluruh struktur, rentang, level, initialState, dan batas hasil Ulangi. Gunakan Guru > Konfigurasi lokal > Validasi lalu Terapkan konfigurasi. Memuat file hanya menampilkan pratinjau. configToState(config) memberi state awal tanpa menjalankannya.",
+  "x-class-permission": "Setelah Prompt 2 aktif, hanya Om Arif dengan frasa persis “Ayo om pit eksekusi buat game nya” boleh mengizinkan penerapan konfigurasi dan pengujian/bermain. Sebelumnya simpan rancangan."
+}

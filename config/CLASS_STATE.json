@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "session": { "date": "2026-10-16", "timeZone": "Asia/Jakarta", "start": "09:00", "end": "10:00", "class": "TK Arkana", "teacher": "Om Arif" },
+  "phase": "preparation",
+  "proposalStatus": "draft_only",
+  "source": "Default usulan persiapan dari brief Om Arif; belum ada keputusan anak.",
+  "agreedChoices": [],
+  "predictionsWithoutIdentity": [],
+  "pendingConfig": null,
+  "testResults": [],
+  "ideasForLater": [],
+  "classExecutionAuthorization": {
+    "authorized": false,
+    "authorizedBy": null,
+    "authorizedAt": null,
+    "requiredSpeaker": "Om Arif",
+    "requiredPhrase": "Ayo om pit eksekusi buat game nya",
+    "scope": "Setelah Prompt 2 aktif: menerapkan konfigurasi yang disepakati pada skeleton yang sama dan menguji/bermain. Bukan membangun ulang. Tidak membatasi pembangunan dan QA persiapan sekarang.",
+    "rule": "Sebelum frasa izin dari Om Arif, catat pilihan sebagai rancangan saja; jangan terapkan konfigurasi kelas atau mulai bermain otomatis. Jangan menyimpan nama, foto, atau profil anak."
+  }
+}

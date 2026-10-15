@@ -1,0 +1,86 @@
+{
+  "testedAt": "2026-10-15T16:18:51.001Z",
+  "browser": "155.0.8059.80",
+  "checks": [
+    {
+      "name": "changing configuration resets queue scroll and shows first repeat card completely",
+      "passed": true,
+      "detail": {
+        "scrollTop": 0,
+        "first": 211,
+        "viewport": 211
+      }
+    },
+    {
+      "name": "reset level returns queue scroll to first instruction",
+      "passed": true
+    },
+    {
+      "name": "level1 fits 1366x768",
+      "passed": true,
+      "detail": {
+        "scrollWidth": 1366,
+        "width": 1366,
+        "scrollHeight": 768,
+        "height": 768,
+        "scrollY": 0
+      }
+    },
+    {
+      "name": "level1 fits 1920x1080",
+      "passed": true,
+      "detail": {
+        "scrollWidth": 1920,
+        "width": 1920,
+        "scrollHeight": 1080,
+        "height": 1080,
+        "scrollY": 0
+      }
+    },
+    {
+      "name": "level31 fits 1366x768",
+      "passed": true,
+      "detail": {
+        "scrollWidth": 1366,
+        "width": 1366,
+        "scrollHeight": 768,
+        "height": 768,
+        "scrollY": 0
+      }
+    },
+    {
+      "name": "level31 fits 1920x1080",
+      "passed": true,
+      "detail": {
+        "scrollWidth": 1920,
+        "width": 1920,
+        "scrollHeight": 1080,
+        "height": 1080,
+        "scrollY": 0
+      }
+    },
+    {
+      "name": "level50 fits 1366x768",
+      "passed": true,
+      "detail": {
+        "scrollWidth": 1366,
+        "width": 1366,
+        "scrollHeight": 768,
+        "height": 768,
+        "scrollY": 0
+      }
+    },
+    {
+      "name": "level50 fits 1920x1080",
+      "passed": true,
+      "detail": {
+        "scrollWidth": 1920,
+        "width": 1920,
+        "scrollHeight": 1080,
+        "height": 1080,
+        "scrollY": 0
+      }
+    }
+  ],
+  "physicalTVTested": false
+}

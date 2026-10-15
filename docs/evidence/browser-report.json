@@ -1,0 +1,269 @@
+{
+  "testedAt": "2026-10-15T16:17:54.324Z",
+  "browser": "155.0.8059.80",
+  "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "headless": true,
+  "softwareWebGL": true,
+  "network": "All external hosts blocked; local HTTP allowed. Physical network adapter was not disabled.",
+  "checks": [
+    {
+      "name": "cold load: no audio context before Mulai gesture",
+      "passed": true,
+      "detail": {
+        "unlocked": false,
+        "contextState": "not-created",
+        "musicPlaying": false,
+        "musicVolume": 0.2,
+        "effectsVolume": 0.45,
+        "muted": false,
+        "activeMusicSources": 0,
+        "activeEffectSources": 0,
+        "timerActive": false,
+        "lastEvent": null,
+        "error": null,
+        "title": "Langkah Kecil Robot",
+        "tempo": 104
+      }
+    },
+    {
+      "name": "Mulai gesture starts actual Web Audio context/music",
+      "passed": true,
+      "detail": {
+        "unlocked": true,
+        "contextState": "running",
+        "musicPlaying": true,
+        "musicVolume": 0.2,
+        "effectsVolume": 0.45,
+        "muted": false,
+        "activeMusicSources": 2,
+        "activeEffectSources": 0,
+        "timerActive": true,
+        "lastEvent": null,
+        "error": null,
+        "title": "Langkah Kecil Robot",
+        "tempo": 104
+      }
+    },
+    {
+      "name": "TV-sized layout has no horizontal overflow at 1920x1080 and 1366x768",
+      "passed": true,
+      "detail": [
+        {
+          "scrollWidth": 1920,
+          "width": 1920,
+          "height": 1080,
+          "scrollHeight": 1080,
+          "cards": [
+            {
+              "text": "Maju1 petak",
+              "width": 300.796875,
+              "height": 125,
+              "font": "24px"
+            },
+            {
+              "text": "Putar kiridi tempat",
+              "width": 300.796875,
+              "height": 125,
+              "font": "24px"
+            },
+            {
+              "text": "Putar kanandi tempat",
+              "width": 300.796875,
+              "height": 125,
+              "font": "24px"
+            },
+            {
+              "text": "Ambil kuncidi petak yang sama",
+              "width": 300.796875,
+              "height": 125,
+              "font": "24px"
+            },
+            {
+              "text": "Buka petidi petak yang sama",
+              "width": 300.796875,
+              "height": 125,
+              "font": "24px"
+            }
+          ]
+        },
+        {
+          "scrollWidth": 1366,
+          "width": 1366,
+          "height": 768,
+          "scrollHeight": 768,
+          "cards": [
+            {
+              "text": "Maju1 petak",
+              "width": 204,
+              "height": 100,
+              "font": "18px"
+            },
+            {
+              "text": "Putar kiridi tempat",
+              "width": 204,
+              "height": 100,
+              "font": "18px"
+            },
+            {
+              "text": "Putar kanandi tempat",
+              "width": 204,
+              "height": 100,
+              "font": "18px"
+            },
+            {
+              "text": "Ambil kuncidi petak yang sama",
+              "width": 204,
+              "height": 100,
+              "font": "18px"
+            },
+            {
+              "text": "Buka petidi petak yang sama",
+              "width": 204,
+              "height": 100,
+              "font": "18px"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "level 1: solution through rendered UI",
+      "passed": true,
+      "detail": {
+        "levelId": 1,
+        "x": 1,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      }
+    },
+    {
+      "name": "level 2: solution through rendered UI",
+      "passed": true,
+      "detail": {
+        "levelId": 2,
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "hasKey": true,
+        "won": true
+      }
+    },
+    {
+      "name": "level 3: solution through rendered UI",
+      "passed": true,
+      "detail": {
+        "levelId": 3,
+        "x": 2,
+        "y": 1,
+        "dir": "N",
+        "hasKey": true,
+        "won": true
+      }
+    },
+    {
+      "name": "relative left turn then forward changes heading and position",
+      "passed": true
+    },
+    {
+      "name": "obstacle cannot be crossed; blocked event is safe",
+      "passed": true
+    },
+    {
+      "name": "chest without key remains locked and emits playful locked event",
+      "passed": true
+    },
+    {
+      "name": "take command in wrong cell is safe",
+      "passed": true
+    },
+    {
+      "name": "pause completes at most current command and can resume",
+      "passed": true
+    },
+    {
+      "name": "step spam consumes exactly one command during animation",
+      "passed": true
+    },
+    {
+      "name": "run and enqueue spam does not duplicate motion or mutate queue",
+      "passed": true
+    },
+    {
+      "name": "reset during animation cancels stale callback and keeps queue",
+      "passed": true
+    },
+    {
+      "name": "clear queue restores initial board and enforces configured instruction cap",
+      "passed": true
+    },
+    {
+      "name": "invalid configuration is rejected atomically",
+      "passed": true
+    },
+    {
+      "name": "mute and separate volume controls update live audio buses",
+      "passed": true,
+      "detail": {
+        "unlocked": true,
+        "contextState": "running",
+        "musicPlaying": true,
+        "musicVolume": 0.1,
+        "effectsVolume": 0.8,
+        "muted": false,
+        "activeMusicSources": 2,
+        "activeEffectSources": 0,
+        "timerActive": true,
+        "lastEvent": "move",
+        "error": null,
+        "title": "Langkah Kecil Robot",
+        "tempo": 104
+      }
+    },
+    {
+      "name": "actual audio graph produces music/SFX samples and mute produces silence",
+      "passed": true,
+      "detail": {
+        "music": 0.07254859805107117,
+        "sfx": {
+          "move": 0.10277611017227173,
+          "turn": 0.08308697491884232,
+          "key": 0.11103080213069916,
+          "locked": 0.11641845107078552,
+          "success": 0.20697730779647827
+        },
+        "muted": 0.000005939430138823809
+      }
+    },
+    {
+      "name": "suspended audio can recover through retry and explicit Mulai",
+      "passed": true
+    },
+    {
+      "name": "fresh reload works with external network requests blocked and no cache reliance",
+      "passed": true,
+      "detail": {
+        "externalRequests": [],
+        "uniqueLocalRequests": 9
+      }
+    },
+    {
+      "name": "no browser JavaScript/console errors",
+      "passed": true
+    }
+  ],
+  "externalRequests": [],
+  "browserErrors": [],
+  "requests": [
+    "http://127.0.0.1:4186/",
+    "http://127.0.0.1:4186/style.css",
+    "http://127.0.0.1:4186/app.js",
+    "http://127.0.0.1:4186/levels.js",
+    "http://127.0.0.1:4186/engine.js",
+    "http://127.0.0.1:4186/audio.js",
+    "http://127.0.0.1:4186/scene.js",
+    "http://127.0.0.1:4186/vendor/three.module.min.js",
+    "http://127.0.0.1:4186/assets/robot.svg"
+  ]
+}

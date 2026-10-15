@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "levelId": 1,
+  "initialState": {
+    "x": 0,
+    "y": 2,
+    "dir": "E",
+    "hasKey": false,
+    "won": false
+  },
+  "queue": [],
+  "playMode": "sequence",
+  "musicVolume": 0.2,
+  "effectsVolume": 0.45,
+  "muted": false
+}

@@ -1,0 +1,167 @@
+{
+  "testedAt": "2026-10-15T16:17:32.542Z",
+  "browser": "155.0.8059.80",
+  "checks": [
+    {
+      "name": "level chooser exposes all50 levels across8 grade groups and selects group boundaries",
+      "passed": true,
+      "detail": {
+        "groups": [
+          "TK A",
+          "TK B",
+          "SD 1",
+          "SD 2",
+          "SD 3",
+          "SD 4",
+          "SD 5",
+          "SD 6"
+        ],
+        "total": 50
+      }
+    },
+    {
+      "name": "lower-grade repeat blocks are rejected atomically through config",
+      "passed": true
+    },
+    {
+      "name": "repeat composer add/save creates visible block and expanded step metadata",
+      "passed": true
+    },
+    {
+      "name": "undo removes whole saved block; draft undo/cancel never changes saved program",
+      "passed": true
+    },
+    {
+      "name": "composer caps body length at12 and refuses saving an empty body",
+      "passed": true
+    },
+    {
+      "name": "expanded cap256 accepts boundary and rejects overflow/nesting/invalid counts",
+      "passed": true
+    },
+    {
+      "name": "20 upper-grade levels also solve with primitive arrays (accelerated renderer integration)",
+      "passed": true,
+      "detail": {
+        "levels": 20,
+        "testAnimationMs": 12
+      }
+    },
+    {
+      "name": "all layouts stay within viewport after navigating grade groups and scrolling program",
+      "passed": true,
+      "detail": {
+        "width": 1366,
+        "scrollWidth": 1366,
+        "height": 768,
+        "scrollHeight": 768,
+        "scrollY": 0
+      }
+    }
+  ],
+  "upperPrimitive": [
+    {
+      "levelId": 31,
+      "commands": 13,
+      "passed": true
+    },
+    {
+      "levelId": 32,
+      "commands": 17,
+      "passed": true
+    },
+    {
+      "levelId": 33,
+      "commands": 16,
+      "passed": true
+    },
+    {
+      "levelId": 34,
+      "commands": 16,
+      "passed": true
+    },
+    {
+      "levelId": 35,
+      "commands": 22,
+      "passed": true
+    },
+    {
+      "levelId": 36,
+      "commands": 26,
+      "passed": true
+    },
+    {
+      "levelId": 37,
+      "commands": 28,
+      "passed": true
+    },
+    {
+      "levelId": 38,
+      "commands": 28,
+      "passed": true
+    },
+    {
+      "levelId": 39,
+      "commands": 28,
+      "passed": true
+    },
+    {
+      "levelId": 40,
+      "commands": 38,
+      "passed": true
+    },
+    {
+      "levelId": 41,
+      "commands": 49,
+      "passed": true
+    },
+    {
+      "levelId": 42,
+      "commands": 34,
+      "passed": true
+    },
+    {
+      "levelId": 43,
+      "commands": 36,
+      "passed": true
+    },
+    {
+      "levelId": 44,
+      "commands": 42,
+      "passed": true
+    },
+    {
+      "levelId": 45,
+      "commands": 38,
+      "passed": true
+    },
+    {
+      "levelId": 46,
+      "commands": 52,
+      "passed": true
+    },
+    {
+      "levelId": 47,
+      "commands": 40,
+      "passed": true
+    },
+    {
+      "levelId": 48,
+      "commands": 53,
+      "passed": true
+    },
+    {
+      "levelId": 49,
+      "commands": 51,
+      "passed": true
+    },
+    {
+      "levelId": 50,
+      "commands": 57,
+      "passed": true
+    }
+  ],
+  "externalRequests": [],
+  "browserErrors": [],
+  "animationPolicy": "Composer step/run uses production timing.20 primitive upper-level replay cases accelerate only scene.motion.duration to12ms; not real-time animation evidence."
+}

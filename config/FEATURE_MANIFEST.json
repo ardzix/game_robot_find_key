@@ -1,0 +1,7364 @@
+{
+  "version": 1,
+  "name": "Robot Cari Kunci",
+  "preparedFor": "TK Arkana, 16 Oktober 2026, 09.00–10.00 WIB",
+  "designStatus": "Pengembangan 50 level dan loop SD 4–6 diminta Om Arif. Penempatan jenjang adalah usulan pedagogis, bukan keputusan anak atau klaim validasi kurikulum/uji coba anak.",
+  "sources": [
+    "levels.js",
+    "engine.js",
+    "index.html",
+    "docs/LEVELS.md",
+    "tests/engine.test.mjs"
+  ],
+  "statusLegend": {
+    "tested_logic": "Dijalankan langsung melalui runner node:assert; bukan bukti browser, animasi, speaker, TV, atau offline.",
+    "ui_present_not_tested": "Kontrol ada pada index.html; perilaku browser belum dinyatakan teruji pada revisi manifest ini.",
+    "pending_verification": "Perlu bukti implementasi atau uji langsung; jangan dijanjikan sebagai fitur teruji.",
+    "tested_browser": "Dijalankan pada Chrome 155.0.8059.80, headless dengan WebGL perangkat lunak; bukan uji TV/speaker fisik."
+  },
+  "logicEvidence": {
+    "date": "2026-10-15",
+    "runtime": "Node.js 16.16.0 lokal, runner node:assert",
+    "command": "node tests/engine.test.mjs",
+    "result": "65 tests passed; 0 failed",
+    "scope": [
+      "50 skenario berbeda; 44 susunan penghalang berbeda; objek berada di dalam batas dan bukan batu",
+      "Semua 50 solusi tanpa kegagalan",
+      "BFS independen pada posisi/arah/status kunci membuktikan optimum 3–57 instruksi",
+      "Program contoh loop membentang tepat sama dengan solusi biasa",
+      "Distribusi jenjang 6/6/6/6/6/6/7/7",
+      "Arah relatif dan interaksi petak yang sama",
+      "Kunci wajib, batas dan batu, pemulihan kegagalan",
+      "5000 perintah berulang tanpa state ilegal",
+      "Loop 2–4 kali hanya level 31–50",
+      "Badan 1–12 kartu, tanpa loop bersarang",
+      "Batas 64 blok dan 256 instruksi, 257 ditolak",
+      "Config divalidasi ketat dan disalin tanpa berbagi badan loop"
+    ],
+    "limitation": "Bukti logika dilengkapi uji browser di browserEvidence; perangkat kelas fisik belum diuji."
+  },
+  "rules": {
+    "coordinates": "x ke kanan, y ke bawah; berbasis nol; baris y=0 adalah utara",
+    "directions": {
+      "N": "utara",
+      "E": "timur",
+      "S": "selatan",
+      "W": "barat"
+    },
+    "move": "Maju satu petak relatif arah hadap; kiri/kanan putar 90 derajat di tempat.",
+    "interaction": "Robot harus menempati petak yang SAMA dengan kunci/peti. Arah hadap bebas. Kunci tidak diambil otomatis ketika dilewati.",
+    "goal": "Ambil kunci lalu buka peti pada petak peti.",
+    "obstruction": "Batu dan batas peta menahan robot di tempat; tidak ada hukuman.",
+    "lockedChest": "Buka tanpa kunci membiarkan peti tertutup, posisi tetap, bisa mencoba lagi.",
+    "afterWin": "State tidak berubah lagi sampai reset.",
+    "maxQueueLength": 64,
+    "status": "tested_browser",
+    "maxExpandedLength": 256,
+    "repeat": {
+      "levels": "31–50 / SD 4–6",
+      "repeatCounts": [
+        2,
+        3,
+        4
+      ],
+      "bodyLength": "1–12 kartu biasa",
+      "nested": false,
+      "step": "Satu langkah menjalankan satu instruksi biasa, bukan seluruh blok Ulangi."
+    }
+  },
+  "controls": [
+    {
+      "id": "start-button",
+      "label": "Mulai",
+      "status": "tested_browser"
+    },
+    {
+      "command": "forward",
+      "label": "Maju",
+      "status": "tested_browser"
+    },
+    {
+      "command": "left",
+      "label": "Putar kiri",
+      "status": "tested_browser"
+    },
+    {
+      "command": "right",
+      "label": "Putar kanan",
+      "status": "tested_browser"
+    },
+    {
+      "command": "take",
+      "label": "Ambil kunci",
+      "status": "tested_browser"
+    },
+    {
+      "command": "open",
+      "label": "Buka peti",
+      "status": "tested_browser"
+    },
+    {
+      "id": "run-button",
+      "label": "Jalankan / Lanjutkan",
+      "status": "tested_browser"
+    },
+    {
+      "id": "pause-button",
+      "label": "Jeda / Dijeda",
+      "status": "tested_browser"
+    },
+    {
+      "id": "step-button",
+      "label": "Satu langkah",
+      "status": "tested_browser"
+    },
+    {
+      "id": "reset-button",
+      "label": "Reset level",
+      "status": "tested_browser"
+    },
+    {
+      "id": "undo-button",
+      "label": "Hapus terakhir",
+      "status": "tested_browser"
+    },
+    {
+      "id": "clear-button",
+      "label": "Kosongkan",
+      "status": "tested_browser"
+    },
+    {
+      "id": "mute-button",
+      "label": "Suara",
+      "status": "tested_browser"
+    },
+    {
+      "id": "teacher-button",
+      "label": "Guru",
+      "status": "tested_browser"
+    },
+    {
+      "id": "play-mode",
+      "label": "Cara menjalankan",
+      "choices": [
+        "Urutan otomatis",
+        "Satu langkah bersama guru"
+      ],
+      "status": "tested_browser"
+    },
+    {
+      "id": "music-volume",
+      "label": "Musik",
+      "status": "tested_browser"
+    },
+    {
+      "id": "effects-volume",
+      "label": "Efek suara",
+      "status": "tested_browser"
+    },
+    {
+      "id": "fullscreen-button",
+      "label": "Layar penuh",
+      "status": "tested_browser"
+    },
+    {
+      "id": "solution-button",
+      "label": "Muat contoh rute",
+      "status": "tested_browser"
+    },
+    {
+      "id": "default-button",
+      "label": "Pulihkan default",
+      "status": "tested_browser"
+    },
+    {
+      "id": "validate-config",
+      "label": "Validasi",
+      "status": "tested_browser"
+    },
+    {
+      "id": "apply-config",
+      "label": "Terapkan konfigurasi",
+      "status": "tested_browser"
+    },
+    {
+      "id": "export-config",
+      "label": "Simpan konfigurasi",
+      "status": "tested_browser"
+    },
+    {
+      "id": "import-config",
+      "label": "Baca file",
+      "status": "tested_browser"
+    },
+    {
+      "id": "class-lock",
+      "label": "Kunci sesi kelas",
+      "status": "tested_browser"
+    },
+    {
+      "id": "save-draft",
+      "label": "Simpan rancangan",
+      "status": "tested_browser"
+    },
+    {
+      "id": "authorize-class",
+      "label": "Izinkan rencana ini",
+      "status": "tested_browser"
+    },
+    {
+      "id": "export-state",
+      "label": "Simpan CLASS_STATE",
+      "status": "tested_browser"
+    },
+    {
+      "id": "level-picker",
+      "label": "Pilih level",
+      "status": "tested_browser"
+    },
+    {
+      "id": "grade-tabs",
+      "label": "Pilih jenjang",
+      "status": "tested_browser"
+    },
+    {
+      "id": "previous-level",
+      "label": "Level sebelumnya",
+      "status": "tested_browser"
+    },
+    {
+      "id": "advance-level",
+      "label": "Level selanjutnya",
+      "status": "tested_browser"
+    },
+    {
+      "id": "repeat-toggle",
+      "label": "Buat pengulangan",
+      "status": "tested_browser"
+    },
+    {
+      "id": "repeat-count",
+      "label": "Ulangi 2× / 3× / 4×",
+      "status": "tested_browser"
+    },
+    {
+      "id": "repeat-save",
+      "label": "Simpan blok",
+      "status": "tested_browser"
+    },
+    {
+      "id": "repeat-cancel",
+      "label": "Batal",
+      "status": "tested_browser"
+    },
+    {
+      "id": "audio-retry",
+      "label": "Mulai audio",
+      "status": "tested_browser"
+    }
+  ],
+  "levels": [
+    {
+      "id": 1,
+      "title": "Satu Langkah Lagi",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK A",
+      "group": "TK A",
+      "groupIndex": 1,
+      "difficulty": 1,
+      "lesson": "Urutan pendek, satu petak, dan arah hadap.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 3,
+      "start": {
+        "x": 0,
+        "y": 2,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 2
+      },
+      "chest": {
+        "x": 1,
+        "y": 2
+      },
+      "obstacles": [],
+      "solution": [
+        "take",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 3,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 2,
+      "title": "Dua Petak Ceria",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK A",
+      "group": "TK A",
+      "groupIndex": 1,
+      "difficulty": 2,
+      "lesson": "Urutan pendek, satu petak, dan arah hadap.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 3,
+      "start": {
+        "x": 0,
+        "y": 2,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 2
+      },
+      "chest": {
+        "x": 2,
+        "y": 2
+      },
+      "obstacles": [],
+      "solution": [
+        "take",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 4,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 3,
+      "title": "Belok ke Peti",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK A",
+      "group": "TK A",
+      "groupIndex": 1,
+      "difficulty": 3,
+      "lesson": "Urutan pendek, satu petak, dan arah hadap.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 3,
+      "start": {
+        "x": 0,
+        "y": 2,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 2
+      },
+      "chest": {
+        "x": 2,
+        "y": 1
+      },
+      "obstacles": [],
+      "solution": [
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 6,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 4,
+      "title": "Ikuti Jalannya",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK A",
+      "group": "TK A",
+      "groupIndex": 1,
+      "difficulty": 4,
+      "lesson": "Urutan pendek, satu petak, dan arah hadap.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 3,
+      "start": {
+        "x": 0,
+        "y": 2,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 2
+      },
+      "chest": {
+        "x": 3,
+        "y": 1
+      },
+      "obstacles": [],
+      "solution": [
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 7,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 5,
+      "title": "Hidung ke Utara",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK A",
+      "group": "TK A",
+      "groupIndex": 1,
+      "difficulty": 5,
+      "lesson": "Urutan pendek, satu petak, dan arah hadap.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 3,
+        "dir": "N"
+      },
+      "key": {
+        "x": 0,
+        "y": 2
+      },
+      "chest": {
+        "x": 2,
+        "y": 2
+      },
+      "obstacles": [],
+      "solution": [
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 6,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 6,
+      "title": "Batu Pertama",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK A",
+      "group": "TK A",
+      "groupIndex": 1,
+      "difficulty": 6,
+      "lesson": "Urutan pendek, satu petak, dan arah hadap.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 3,
+        "dir": "E"
+      },
+      "key": {
+        "x": 1,
+        "y": 3
+      },
+      "chest": {
+        "x": 2,
+        "y": 2
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 3
+        }
+      ],
+      "solution": [
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 7,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 7,
+      "title": "Kuncinya Dulu",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK B",
+      "group": "TK B",
+      "groupIndex": 2,
+      "difficulty": 7,
+      "lesson": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 3,
+        "dir": "E"
+      },
+      "key": {
+        "x": 2,
+        "y": 3
+      },
+      "chest": {
+        "x": 2,
+        "y": 1
+      },
+      "obstacles": [],
+      "solution": [
+        "forward",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 7,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 8,
+      "title": "Berangkat ke Kiri",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK B",
+      "group": "TK B",
+      "groupIndex": 2,
+      "difficulty": 8,
+      "lesson": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 4,
+      "height": 4,
+      "start": {
+        "x": 3,
+        "y": 3,
+        "dir": "W"
+      },
+      "key": {
+        "x": 1,
+        "y": 3
+      },
+      "chest": {
+        "x": 1,
+        "y": 0
+      },
+      "obstacles": [],
+      "solution": [
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 8,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 9,
+      "title": "Singgah Ambil Kunci",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK B",
+      "group": "TK B",
+      "groupIndex": 2,
+      "difficulty": 9,
+      "lesson": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 3,
+        "dir": "E"
+      },
+      "key": {
+        "x": 2,
+        "y": 3
+      },
+      "chest": {
+        "x": 4,
+        "y": 2
+      },
+      "obstacles": [
+        {
+          "x": 3,
+          "y": 3
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 9,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 10,
+      "title": "Putar Sebelum Maju",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK B",
+      "group": "TK B",
+      "groupIndex": 2,
+      "difficulty": 10,
+      "lesson": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 3,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 1
+      },
+      "chest": {
+        "x": 4,
+        "y": 1
+      },
+      "obstacles": [],
+      "solution": [
+        "left",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 10,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 11,
+      "title": "Kunci di Balik Batu",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK B",
+      "group": "TK B",
+      "groupIndex": 2,
+      "difficulty": 11,
+      "lesson": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 4,
+        "y": 3,
+        "dir": "W"
+      },
+      "key": {
+        "x": 3,
+        "y": 2
+      },
+      "chest": {
+        "x": 1,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 3
+        }
+      ],
+      "solution": [
+        "forward",
+        "right",
+        "forward",
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "right",
+        "forward",
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 10,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 12,
+      "title": "Coba Jalan Lain",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "TK B",
+      "group": "TK B",
+      "groupIndex": 2,
+      "difficulty": 12,
+      "lesson": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 3,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 3
+      },
+      "chest": {
+        "x": 4,
+        "y": 2
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 2
+        }
+      ],
+      "solution": [
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 12,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 13,
+      "title": "Lihat Sebelum Melangkah",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 1",
+      "group": "SD 1",
+      "groupIndex": 3,
+      "difficulty": 13,
+      "lesson": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 4,
+        "y": 3,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 0
+      },
+      "chest": {
+        "x": 4,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "authoringSeed": 1300427,
+      "solution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 17,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 14,
+      "title": "Dua Bagian Rencana",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 1",
+      "group": "SD 1",
+      "groupIndex": 3,
+      "difficulty": 14,
+      "lesson": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 4,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 3
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 3
+        }
+      ],
+      "authoringSeed": 1400721,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 17,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 15,
+      "title": "Sudut yang Berbeda",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 1",
+      "group": "SD 1",
+      "groupIndex": 3,
+      "difficulty": 15,
+      "lesson": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 4,
+      "start": {
+        "x": 0,
+        "y": 0,
+        "dir": "N"
+      },
+      "key": {
+        "x": 4,
+        "y": 3
+      },
+      "chest": {
+        "x": 0,
+        "y": 3
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "authoringSeed": 1500142,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 16,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 16,
+      "title": "Jangan Lewat Batu",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 1",
+      "group": "SD 1",
+      "groupIndex": 3,
+      "difficulty": 16,
+      "lesson": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 4,
+        "dir": "E"
+      },
+      "key": {
+        "x": 4,
+        "y": 0
+      },
+      "chest": {
+        "x": 4,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "authoringSeed": 1600533,
+      "solution": [
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 19,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 17,
+      "title": "Prediksi Satu Putaran",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 1",
+      "group": "SD 1",
+      "groupIndex": 3,
+      "difficulty": 17,
+      "lesson": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 5,
+      "start": {
+        "x": 4,
+        "y": 4,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 0
+      },
+      "chest": {
+        "x": 4,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 4
+        }
+      ],
+      "authoringSeed": 1700439,
+      "solution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 18,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 18,
+      "title": "Perbaiki Rute Kita",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 1",
+      "group": "SD 1",
+      "groupIndex": 3,
+      "difficulty": 18,
+      "lesson": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 5,
+      "start": {
+        "x": 4,
+        "y": 0,
+        "dir": "N"
+      },
+      "key": {
+        "x": 0,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "authoringSeed": 1800248,
+      "solution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 18,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 19,
+      "title": "Ke Kunci Lalu ke Peti",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 2",
+      "group": "SD 2",
+      "groupIndex": 4,
+      "difficulty": 19,
+      "lesson": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 0,
+        "dir": "N"
+      },
+      "key": {
+        "x": 4,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        }
+      ],
+      "authoringSeed": 1900542,
+      "solution": [
+        "left",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 19,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 20,
+      "title": "Peta dari Selatan",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 2",
+      "group": "SD 2",
+      "groupIndex": 4,
+      "difficulty": 20,
+      "lesson": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 4,
+        "dir": "N"
+      },
+      "key": {
+        "x": 4,
+        "y": 0
+      },
+      "chest": {
+        "x": 4,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 3
+        }
+      ],
+      "authoringSeed": 2000060,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 18,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 21,
+      "title": "Rencanakan Persinggahan",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 2",
+      "group": "SD 2",
+      "groupIndex": 4,
+      "difficulty": 21,
+      "lesson": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 5,
+      "height": 5,
+      "start": {
+        "x": 4,
+        "y": 4,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 0
+      },
+      "chest": {
+        "x": 4,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        }
+      ],
+      "authoringSeed": 2100063,
+      "solution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 23,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 22,
+      "title": "Dari Sudut ke Sudut",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 2",
+      "group": "SD 2",
+      "groupIndex": 4,
+      "difficulty": 22,
+      "lesson": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 5,
+      "start": {
+        "x": 5,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        }
+      ],
+      "authoringSeed": 2200357,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 23,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 23,
+      "title": "Balik Arah dengan Tenang",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 2",
+      "group": "SD 2",
+      "groupIndex": 4,
+      "difficulty": 23,
+      "lesson": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 0,
+        "dir": "N"
+      },
+      "key": {
+        "x": 5,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 4
+        }
+      ],
+      "authoringSeed": 2300166,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 24,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 24,
+      "title": "Cek Setiap Bagian",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 2",
+      "group": "SD 2",
+      "groupIndex": 4,
+      "difficulty": 24,
+      "lesson": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 4,
+        "dir": "E"
+      },
+      "key": {
+        "x": 5,
+        "y": 0
+      },
+      "chest": {
+        "x": 5,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        }
+      ],
+      "authoringSeed": 2400557,
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 23,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 25,
+      "title": "Pilih Jalur Efisien",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 3",
+      "group": "SD 3",
+      "groupIndex": 5,
+      "difficulty": 25,
+      "lesson": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 5,
+      "start": {
+        "x": 5,
+        "y": 4,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 0
+      },
+      "chest": {
+        "x": 5,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        }
+      ],
+      "authoringSeed": 2500463,
+      "solution": [
+        "left",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 22,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 26,
+      "title": "Hitung Langkah dan Putar",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 3",
+      "group": "SD 3",
+      "groupIndex": 5,
+      "difficulty": 26,
+      "lesson": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 5,
+      "start": {
+        "x": 5,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        }
+      ],
+      "authoringSeed": 2601145,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 24,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 27,
+      "title": "Rute Sama Cara Berbeda",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 3",
+      "group": "SD 3",
+      "groupIndex": 5,
+      "difficulty": 27,
+      "lesson": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 0,
+        "dir": "W"
+      },
+      "key": {
+        "x": 5,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "authoringSeed": 2700081,
+      "solution": [
+        "left",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 22,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 28,
+      "title": "Cari Putaran yang Hemat",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 3",
+      "group": "SD 3",
+      "groupIndex": 5,
+      "difficulty": 28,
+      "lesson": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 6,
+      "start": {
+        "x": 0,
+        "y": 5,
+        "dir": "N"
+      },
+      "key": {
+        "x": 5,
+        "y": 0
+      },
+      "chest": {
+        "x": 5,
+        "y": 5
+      },
+      "obstacles": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        }
+      ],
+      "authoringSeed": 2800084,
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 25,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 29,
+      "title": "Bandingkan Dua Rencana",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 3",
+      "group": "SD 3",
+      "groupIndex": 5,
+      "difficulty": 29,
+      "lesson": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 6,
+      "start": {
+        "x": 5,
+        "y": 5,
+        "dir": "S"
+      },
+      "key": {
+        "x": 0,
+        "y": 0
+      },
+      "chest": {
+        "x": 5,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "authoringSeed": 2900572,
+      "solution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 28,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 30,
+      "title": "Uji Dugaan Kita",
+      "subtitle": "Susun langkah, ambil kunci, lalu buka peti.",
+      "grade": "SD 3",
+      "group": "SD 3",
+      "groupIndex": 5,
+      "difficulty": 30,
+      "lesson": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "hints": [
+        "Cari posisi awal dan arah hidung robot.",
+        "Rencanakan jalan ke kunci, lalu ke peti.",
+        "Putar hanya mengubah arah; maju memindahkan satu petak."
+      ],
+      "width": 6,
+      "height": 6,
+      "start": {
+        "x": 5,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 5
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "authoringSeed": 3001157,
+      "solution": [
+        "left",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "left",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 27,
+      "loopAvailable": false,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 31,
+      "title": "Tangga Berulang",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 4",
+      "group": "SD 4",
+      "groupIndex": 6,
+      "difficulty": 31,
+      "lesson": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 6,
+      "height": 6,
+      "start": {
+        "x": 0,
+        "y": 5,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 5
+      },
+      "chest": {
+        "x": 3,
+        "y": 2
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "solution": [
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward",
+            "right"
+          ]
+        },
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 13,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 32,
+      "title": "Tangga dari Sisi Lain",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 4",
+      "group": "SD 4",
+      "groupIndex": 6,
+      "difficulty": 32,
+      "lesson": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 6,
+      "height": 6,
+      "start": {
+        "x": 5,
+        "y": 0,
+        "dir": "W"
+      },
+      "key": {
+        "x": 5,
+        "y": 0
+      },
+      "chest": {
+        "x": 1,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "solution": [
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "left",
+            "forward",
+            "right"
+          ]
+        },
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 17,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 33,
+      "title": "Dua Baris Berulang",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 4",
+      "group": "SD 4",
+      "groupIndex": 6,
+      "difficulty": 33,
+      "lesson": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 5,
+      "start": {
+        "x": 0,
+        "y": 4,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 4
+      },
+      "chest": {
+        "x": 6,
+        "y": 1
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 4
+        }
+      ],
+      "solution": [
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left",
+            "forward",
+            "right"
+          ]
+        },
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 16,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 34,
+      "title": "Pola Berbalik Arah",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 4",
+      "group": "SD 4",
+      "groupIndex": 6,
+      "difficulty": 34,
+      "lesson": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 5,
+      "start": {
+        "x": 6,
+        "y": 0,
+        "dir": "W"
+      },
+      "key": {
+        "x": 6,
+        "y": 0
+      },
+      "chest": {
+        "x": 0,
+        "y": 3
+      },
+      "obstacles": [
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "solution": [
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left",
+            "forward",
+            "right"
+          ]
+        },
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 16,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 35,
+      "title": "Ulangi Lalu Ambil",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 4",
+      "group": "SD 4",
+      "groupIndex": 6,
+      "difficulty": 35,
+      "lesson": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 5,
+      "height": 6,
+      "start": {
+        "x": 0,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 4,
+        "y": 1
+      },
+      "chest": {
+        "x": 4,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "take",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        "right",
+        "forward",
+        "take",
+        "forward",
+        "right",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 22,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 36,
+      "title": "Pola yang Lebih Panjang",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 4",
+      "group": "SD 4",
+      "groupIndex": 6,
+      "difficulty": 36,
+      "lesson": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 4,
+      "height": 7,
+      "start": {
+        "x": 0,
+        "y": 6,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 6
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        }
+      ],
+      "solution": [
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left",
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 26,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 37,
+      "title": "Baris Panjang Bersama",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 37,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 6,
+      "start": {
+        "x": 0,
+        "y": 5,
+        "dir": "E"
+      },
+      "key": {
+        "x": 6,
+        "y": 5
+      },
+      "chest": {
+        "x": 6,
+        "y": 1
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "left",
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        "left",
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 28,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 38,
+      "title": "Pola dari Timur",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 38,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 6,
+      "start": {
+        "x": 6,
+        "y": 5,
+        "dir": "W"
+      },
+      "key": {
+        "x": 1,
+        "y": 3
+      },
+      "chest": {
+        "x": 0,
+        "y": 1
+      },
+      "obstacles": [
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 28,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 39,
+      "title": "Kunci di Tengah Pola",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 39,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 6,
+      "start": {
+        "x": 0,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 3
+      },
+      "chest": {
+        "x": 6,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "take",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "left",
+        "forward",
+        "take",
+        "forward",
+        "left",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 28,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 40,
+      "title": "Empat Baris Terencana",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 40,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 7,
+      "start": {
+        "x": 0,
+        "y": 6,
+        "dir": "E"
+      },
+      "key": {
+        "x": 5,
+        "y": 4
+      },
+      "chest": {
+        "x": 0,
+        "y": 0
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 38,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 41,
+      "title": "Jelajah Lalu Kembali",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 41,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 7,
+      "start": {
+        "x": 6,
+        "y": 6,
+        "dir": "W"
+      },
+      "key": {
+        "x": 6,
+        "y": 0
+      },
+      "chest": {
+        "x": 0,
+        "y": 2
+      },
+      "obstacles": [
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left"
+          ]
+        },
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "left",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 49,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 42,
+      "title": "Potong Awal Rute",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 42,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 7,
+      "start": {
+        "x": 4,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 6,
+        "y": 6
+      },
+      "chest": {
+        "x": 0,
+        "y": 6
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 34,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 43,
+      "title": "Pola dan Persinggahan",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 5",
+      "group": "SD 5",
+      "groupIndex": 7,
+      "difficulty": 43,
+      "lesson": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 7,
+      "height": 7,
+      "start": {
+        "x": 4,
+        "y": 0,
+        "dir": "W"
+      },
+      "key": {
+        "x": 4,
+        "y": 4
+      },
+      "chest": {
+        "x": 6,
+        "y": 6
+      },
+      "obstacles": [
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "right",
+            "forward",
+            "forward"
+          ]
+        },
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 36,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 44,
+      "title": "Susun Rencana Besar",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 44,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 8,
+      "start": {
+        "x": 0,
+        "y": 7,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 5
+      },
+      "chest": {
+        "x": 0,
+        "y": 1
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 7,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 7,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 6
+        },
+        {
+          "x": 2,
+          "y": 6
+        },
+        {
+          "x": 3,
+          "y": 6
+        },
+        {
+          "x": 4,
+          "y": 6
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "take",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "right",
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        "right",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 42,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 45,
+      "title": "Mulai dari Tengah",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 45,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 8,
+      "start": {
+        "x": 3,
+        "y": 7,
+        "dir": "W"
+      },
+      "key": {
+        "x": 7,
+        "y": 1
+      },
+      "chest": {
+        "x": 7,
+        "y": 1
+      },
+      "obstacles": [
+        {
+          "x": 7,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 7,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 7,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 4,
+          "y": 6
+        },
+        {
+          "x": 3,
+          "y": 6
+        },
+        {
+          "x": 2,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 6
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "take",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "take",
+        "open"
+      ],
+      "shortestCommandCount": 38,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 46,
+      "title": "Ambil Lalu Kembali",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 46,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 8,
+      "start": {
+        "x": 5,
+        "y": 0,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 6
+      },
+      "chest": {
+        "x": 5,
+        "y": 4
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 7
+        },
+        {
+          "x": 1,
+          "y": 7
+        },
+        {
+          "x": 2,
+          "y": 7
+        },
+        {
+          "x": 3,
+          "y": 7
+        },
+        {
+          "x": 4,
+          "y": 7
+        },
+        {
+          "x": 5,
+          "y": 7
+        },
+        {
+          "x": 6,
+          "y": 7
+        },
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 7,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        "forward",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left"
+          ]
+        },
+        "take",
+        "forward",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left",
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 52,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 47,
+      "title": "Baca Peta Terbalik",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 47,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 8,
+      "start": {
+        "x": 5,
+        "y": 0,
+        "dir": "W"
+      },
+      "key": {
+        "x": 4,
+        "y": 4
+      },
+      "chest": {
+        "x": 7,
+        "y": 6
+      },
+      "obstacles": [
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 6,
+          "y": 7
+        },
+        {
+          "x": 5,
+          "y": 7
+        },
+        {
+          "x": 4,
+          "y": 7
+        },
+        {
+          "x": 3,
+          "y": 7
+        },
+        {
+          "x": 2,
+          "y": 7
+        },
+        {
+          "x": 1,
+          "y": 7
+        },
+        {
+          "x": 0,
+          "y": 7
+        },
+        {
+          "x": 7,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 7,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "left"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "right",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        "take",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 40,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 48,
+      "title": "Telusuri Setiap Ulangan",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 48,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 7,
+      "start": {
+        "x": 0,
+        "y": 6,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 0
+      },
+      "chest": {
+        "x": 7,
+        "y": 1
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 7,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left"
+          ]
+        },
+        "take",
+        "forward",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "right",
+        "forward",
+        "open"
+      ],
+      "shortestCommandCount": 53,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 49,
+      "title": "Rencanakan Jalan Pulang",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 49,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 7,
+      "start": {
+        "x": 4,
+        "y": 6,
+        "dir": "W"
+      },
+      "key": {
+        "x": 3,
+        "y": 0
+      },
+      "chest": {
+        "x": 7,
+        "y": 2
+      },
+      "obstacles": [
+        {
+          "x": 7,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 7,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left"
+          ]
+        },
+        "take",
+        {
+          "repeat": 2,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 51,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    },
+    {
+      "id": 50,
+      "title": "Misi Algoritma Bersama",
+      "subtitle": "Cari pola, ambil kunci, lalu buka peti.",
+      "grade": "SD 6",
+      "group": "SD 6",
+      "groupIndex": 8,
+      "difficulty": 50,
+      "lesson": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "hints": [
+        "Baca satu badan Ulangi lebih dahulu.",
+        "Hitung posisi dan arah setelah setiap ulangan.",
+        "Ambil kunci harus berada tepat di petaknya."
+      ],
+      "width": 8,
+      "height": 8,
+      "start": {
+        "x": 0,
+        "y": 7,
+        "dir": "E"
+      },
+      "key": {
+        "x": 0,
+        "y": 1
+      },
+      "chest": {
+        "x": 5,
+        "y": 3
+      },
+      "obstacles": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": 6,
+          "y": 0
+        },
+        {
+          "x": 7,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": 6,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 7,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 6
+        },
+        {
+          "x": 1,
+          "y": 6
+        },
+        {
+          "x": 2,
+          "y": 6
+        },
+        {
+          "x": 3,
+          "y": 6
+        },
+        {
+          "x": 4,
+          "y": 6
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        }
+      ],
+      "solution": [
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "left",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "left",
+        "left",
+        "take",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "right",
+        "forward",
+        "forward",
+        "open"
+      ],
+      "programSolution": [
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 4,
+          "commands": [
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "forward",
+            "right"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "forward",
+            "left",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "left"
+          ]
+        },
+        "take",
+        "forward",
+        {
+          "repeat": 3,
+          "commands": [
+            "forward",
+            "forward"
+          ]
+        },
+        {
+          "repeat": 2,
+          "commands": [
+            "right",
+            "forward",
+            "forward"
+          ]
+        },
+        "open"
+      ],
+      "shortestCommandCount": 57,
+      "loopAvailable": true,
+      "interaction": "same_cell",
+      "keyRequired": true,
+      "status": "tested_browser",
+      "evidence": "Semua rute pada browser dengan animasi dipercepat khusus tes; level 1,7,13,19,25,31,37,44,50 juga pada durasi animasi produksi."
+    }
+  ],
+  "configuration": {
+    "schema": "config/CLASS_CONFIG_SCHEMA.json",
+    "defaults": "config/DEFAULT_CONFIG.json",
+    "state": "config/CLASS_STATE.json",
+    "supported": [
+      "levelId 1–50",
+      "queue maksimal 64 kartu/blok",
+      "Ulangi 2–4 kali, badan 1–12 kartu, hanya level 31–50",
+      "Maksimal 256 instruksi hasil pembentangan",
+      "playMode sequence/step",
+      "musicVolume 0–1",
+      "effectsVolume 0–1",
+      "muted boolean"
+    ],
+    "fixed": [
+      "peta",
+      "posisi kunci dan peti",
+      "batu",
+      "posisi dan arah awal",
+      "model",
+      "musik"
+    ],
+    "validation": "engine.js validateConfig dan expandQueue: field, tipe, level, rentang, posisi tetap, bentuk loop, larangan loop bersarang, dan batas hasil eksekusi.",
+    "status": "tested_browser"
+  },
+  "pendingEvidence": [
+    "Jaringan Wi-Fi/Ethernet dimatikan secara fisik pada perangkat kelas",
+    "Keterbacaan dan kelancaran pada TV/HDMI kelas, termasuk peta 8×8",
+    "Mendengarkan speaker fisik dan mengatur volume nyaman",
+    "Penilaian kesesuaian kesulitan oleh guru/anak"
+  ],
+  "unsupported": [
+    "Ulangi bersarang",
+    "repeat selain 2, 3, 4",
+    "Perubahan peta atau posisi objek melalui config",
+    "Generasi AI saat kelas",
+    "Multiplayer",
+    "Profil atau identitas anak",
+    "Perekaman anak",
+    "Musuh, horor, lompatan, eliminasi, atau penghitung waktu"
+  ],
+  "classPermission": {
+    "appliesAfter": "Prompt 2 aktif",
+    "authorizedSpeaker": "Om Arif",
+    "exactPhrase": "Ayo om pit eksekusi buat game nya",
+    "beforePermission": "Catat pilihan/rencana/prediksi sebagai rancangan; jangan terapkan konfigurasi kelas atau mulai bermain otomatis.",
+    "preparation": "Pembangunan dan pengujian persiapan sekarang telah diizinkan; tidak menunggu frasa kelas.",
+    "uiLimitation": "Kunci sesi adalah alur kerja guru, bukan autentikasi atau pengenal suara. Manusia/Om Pit tetap harus memastikan pemberi izin adalah Om Arif. Reload mencabut otorisasi; tidak bermain otomatis.",
+    "storage": "Rancangan dan hasil uji di localStorage browser; ekspor CLASS_STATE diperlukan untuk berkas. Baseline config/CLASS_STATE.json tetap rancangan tanpa identitas."
+  },
+  "edition": "50-level progression with finite repeat blocks",
+  "groups": [
+    {
+      "grade": "TK A",
+      "count": 6,
+      "focus": "Urutan pendek, satu petak, dan arah hadap.",
+      "index": 1,
+      "levelIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "shortestRouteRange": [
+        3,
+        7
+      ]
+    },
+    {
+      "grade": "TK B",
+      "count": 6,
+      "focus": "Kunci sebagai syarat, putaran, dan rute sederhana.",
+      "index": 2,
+      "levelIds": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "shortestRouteRange": [
+        7,
+        12
+      ]
+    },
+    {
+      "grade": "SD 1",
+      "count": 6,
+      "focus": "Prediksi, rute alternatif, dan memperbaiki satu kesalahan.",
+      "index": 3,
+      "levelIds": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "shortestRouteRange": [
+        16,
+        19
+      ]
+    },
+    {
+      "grade": "SD 2",
+      "count": 6,
+      "focus": "Membagi rute menjadi bagian sebelum dan sesudah mengambil kunci.",
+      "index": 4,
+      "levelIds": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "shortestRouteRange": [
+        18,
+        24
+      ]
+    },
+    {
+      "grade": "SD 3",
+      "count": 6,
+      "focus": "Membandingkan jalur dan menghitung langkah serta putaran.",
+      "index": 5,
+      "levelIds": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "shortestRouteRange": [
+        22,
+        28
+      ]
+    },
+    {
+      "grade": "SD 4",
+      "count": 6,
+      "focus": "Mengenali pola dan memakai blok Ulangi 2–4 kali tanpa loop bersarang.",
+      "index": 6,
+      "levelIds": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "shortestRouteRange": [
+        13,
+        26
+      ]
+    },
+    {
+      "grade": "SD 5",
+      "count": 7,
+      "focus": "Menggabungkan pengulangan dengan syarat kunci dan perjalanan kembali.",
+      "index": 7,
+      "levelIds": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "shortestRouteRange": [
+        28,
+        49
+      ]
+    },
+    {
+      "grade": "SD 6",
+      "count": 7,
+      "focus": "Merencanakan, menelusuri, dan menyederhanakan algoritma yang lebih panjang.",
+      "index": 8,
+      "levelIds": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "shortestRouteRange": [
+        38,
+        57
+      ]
+    }
+  ],
+  "progression": "Bertahap berdasarkan konsep dan struktur rute, bukan selalu panjang solusi yang meningkat. SD 4 dimulai dengan rute lebih pendek untuk memperkenalkan Ulangi.",
+  "browserEvidence": {
+    "date": "2026-10-15",
+    "browser": "Chrome 155.0.8059.80",
+    "runner": "Playwright; headless; software WebGL",
+    "allLevels": 50,
+    "normalAnimationLevels": [
+      1,
+      7,
+      13,
+      19,
+      25,
+      31,
+      37,
+      44,
+      50
+    ],
+    "otherChecks": {
+      "core": 21,
+      "teacherTools": 12,
+      "classControls": 9,
+      "repeatControls": 8,
+      "upperLevelsWithPrimitivePrograms": 20,
+      "visual": 8
+    },
+    "reports": [
+      "docs/evidence/browser-report.json",
+      "docs/evidence/all50-browser-report.json",
+      "docs/evidence/loop-controls-report.json",
+      "docs/evidence/class-controls-report.json",
+      "docs/evidence/teacher-tools-report.json",
+      "docs/evidence/visual-report.json"
+    ],
+    "network": "Fresh browser contexts, cache disabled by server; all non-loopback requests blocked; zero external requests and browser errors. Physical network remained enabled.",
+    "animationPolicy": "All-50 and 20 primitive replay tests accelerate scene motion to 12 ms only in tests. Nine representative levels and control interaction tests use production timing."
+  },
+  "audio": {
+    "status": "tested_browser",
+    "composition": "Langkah Kecil Robot, orisinal, 104 BPM, 16 birama, loop sekitar 36.923 detik",
+    "midi": "assets/music.mid",
+    "preview": "assets/music-preview.wav",
+    "implementation": "audio.js Web Audio; score lokal sama dengan MIDI; tidak mengunduh audio",
+    "unlock": "AudioContext baru dibuat/dilanjutkan melalui tombol Mulai; Mulai audio menawarkan ulang gestur jika suspended.",
+    "controls": "Mute global; musik dan efek terpisah; default musik20%, efek45%",
+    "effects": [
+      "langkah",
+      "putar",
+      "ambil kunci",
+      "peti terkunci/boing",
+      "terhalang",
+      "objek tidak ditemukan",
+      "sudah membawa kunci",
+      "berhasil"
+    ],
+    "evidence": "4 tes struktur audio/MIDI ditambah Analyser Web Audio di browser; speaker fisik belum didengar."
+  },
+  "animation": {
+    "status": "tested_browser",
+    "features": [
+      "robot bergoyang berjalan",
+      "garuk kepala saat bingung",
+      "peti bergoyang saat terkunci",
+      "tarian singkat saat berhasil"
+    ],
+    "camera": "isometrik tetap",
+    "timing": "650 ms per instruksi; keberhasilan1650 ms",
+    "displayEvidence": "1366×768 dan1920×1080; tidak ada overflow halaman; screenshot level1,31,50. TV fisik belum diuji."
+  },
+  "release": {
+    "localLaunch": "MULAI.cmd / BERHENTI.cmd; Windows x64 Node16.16 dibundel; localhost127.0.0.1:4186",
+    "checkpoint": "scripts/checkpoint.mjs; hash SHA-256; pemulihan ke folder baru; docs/CHECKPOINT.md",
+    "qa": "docs/QA_REPORT.md",
+    "repository": "https://github.com/ardzix/game_robot_find_key"
+  }
+}
